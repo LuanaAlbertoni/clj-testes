@@ -29,3 +29,10 @@
       (< 5)))
 
 
+
+(defn chega-em
+  [hospital departamento pessoa]
+  (if (cabe-na-fila? hospital departamneto)
+    (update hospital departamento conj pessoa)
+    (throw (IllegalStateException. "Não cabe ninguém neste departamento.")))
+  )

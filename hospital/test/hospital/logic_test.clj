@@ -40,3 +40,30 @@
     (is (not (cabe-na-fila? {:espera [1 2 3 4]}, :-raio-x))))
   )
 
+
+(deftest chega-em-test
+  (testing "Aceita pessoas enquanto cabem pessoas na fila"
+    (is (= {:espera [1, 2, 3, 4, 5]}
+           (chega-em {:espera [1, 2, 3, 4]}, :espera, 5)))
+
+    (is (= {:espera [1, 2, 5]}
+           (chega-em {:espera [1, 2]}, :espera, 5))))
+
+  (testing "Nao aceita quando nao cabe na fila"
+    ; verificando que uma exception foi jogada
+    ; código clássico horrível. usamos uma exception GENERICA.
+    ; mas qq outro erro generico vai jogar essa exception, e nós vamos achar que deu certo
+    ; quando deu errado
+    ;(is (thrown? clojure.lang.ExceptionInfo
+    ;             (chega-em {:espera [1 35 42 64 21]}, :espera 76)))
+
+    ; mesmo que eu escolha uma exception do genero, perigoso!
+    ;(is (thrown? IllegalStateException
+    ;             (chega-em {:espera [1 35 42 64 21]}, :espera 76)))
+
+    ; outra abordagem, do nil
+    ; mas o perigo so swap, teriamos que trabalhar em outro ponto a condicao de erro
+    ;(is (nil? (chega-em {:espera [1 35 42 64 21]}, :espera 76)))
+    )
+  )
+
