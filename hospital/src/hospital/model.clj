@@ -7,3 +7,6 @@
    :laboratorio1 fila-vazia
    :laboratorio2 fila-vazia
    :laboratorio3 fila-vazia})
+
+
+(s/def Paciente s/Str)

@@ -1,4 +1,6 @@
-(ns hospital.logic)
+(ns hospital.logic
+  (:require [hospital.model :as h.model]
+            [schema.core :as s]))
 
 ; Test Driven Development
 ; Test Driven Design
@@ -85,24 +87,24 @@
     (update hospital departamento conj pessoa)
     (throw (ex-info "Não cabe ninguém neste departamento" {:paciente pessoa}))))
 
-(defn atende
-  [hospital departamento]
-  (update hospital departamento pop))
+(s/defn atende :- h.model/Hospital
+        [hospital :- h.model/Hospital, departamento :- s/Keyword]
+        (update hospital departamento pop))
 
-(defn proxima
-  "Retorna o próximo paciente da fila"
-  [hospital departamento]
-  (-> hospital
-      departamento
-      peek))
+(s/defn proxima :- h.model/PacienteID
+        "Retorna o próximo paciente da fila"
+        [hospital :- h.model/Hospital, departamento :- s/Keyword]
+        (-> hospital
+            departamento
+            peek))
 
-(defn transfere
-  "Transfere o próximo paciente da fila de para a fila para"
-  [hospital de para]
-  (let [pessoa (proxima hospital de)]
-    (-> hospital
-        (atende de)
-        (chega-em para pessoa))))
+(s/defn transfere :- h.model/Hospital
+        "Transfere o próximo paciente da fila de para a fila para"
+        [hospital :-  h.model/Hospital, de :- s/Keyword, para :- s/Keyword]
+        (let [pessoa (proxima hospital de)]
+          (-> hospital
+              (atende de)
+              (chega-em para pessoa))))
 
 
 
